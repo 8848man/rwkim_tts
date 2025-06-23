@@ -10,8 +10,15 @@ class RecordButton extends ConsumerWidget {
     final isRecording = ref.watch(tTSViewModelProvider).isRecording;
 
     return ElevatedButton(
-      onPressed:
-          () => ref.read(tTSViewModelProvider.notifier).toggleRecording(),
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('해당 기능은 준비중입니다.'),
+            duration: const Duration(milliseconds: 700),
+          ),
+        );
+        // ref.read(tTSViewModelProvider.notifier).toggleRecording();
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: isRecording ? Colors.red : Colors.blue,
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),

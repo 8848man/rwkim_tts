@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rwkim_tts/features/tts_service/view_models/tts_view_model.dart';
+import 'package:rwkim_tts/features/tts_service/widgets/character_select_box.dart';
 import 'package:rwkim_tts/features/tts_service/widgets/record_button.dart';
 import 'package:rwkim_tts/features/tts_service/widgets/text_input_section.dart';
 
@@ -39,6 +40,18 @@ class TTSScreen extends ConsumerWidget {
                 style: const TextStyle(fontSize: 16),
               ),
             ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              onPressed: () => showDialog(context),
+              child: Text(
+                '캐릭터 선택',
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
             const SizedBox(height: 32),
             const Text(
               '텍스트 음성 변환 (TTS)',
@@ -49,6 +62,48 @@ class TTSScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black54,
+      transitionDuration: Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Material(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CharacterSelectBox(),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('닫기'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset(0, 1),
+            end: Offset(0, 0),
+          ).animate(animation),
+          child: child,
+        );
+      },
     );
   }
 }
