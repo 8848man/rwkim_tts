@@ -8,7 +8,6 @@ class TextInputSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSpeaking = ref.watch(tTSViewModelProvider).isSpeaking;
-    final inputText = ref.watch(tTSViewModelProvider).inputText;
 
     return Column(
       children: [
