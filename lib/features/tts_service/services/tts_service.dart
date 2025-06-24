@@ -1,5 +1,4 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:rwkim_tts/features/tts_service/repositories/supertone_repository.dart';
 
@@ -52,9 +51,6 @@ class TTSServiceImpl implements TTSService {
 
   @override
   Future<void> speak(Map<String, dynamic> data) async {
-    if (kIsWeb) {
-      print('이건 웹에서 실행되고 있어요!');
-    }
     final audioBytes = await repository.fetchTtsAudio(data);
     await _player.play(BytesSource(audioBytes));
   }

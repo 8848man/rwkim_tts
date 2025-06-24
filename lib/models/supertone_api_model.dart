@@ -1,9 +1,12 @@
+import 'package:rwkim_tts/features/tts_service/consts/default_voice_id.dart';
+
 class SupertoneApiModel {
   final String text;
   final String? language;
   final String? style;
   final String? model;
   final Map<String, String>? voiceSettings;
+  final String voiceId; // Default voice ID
 
   const SupertoneApiModel({
     required this.text,
@@ -11,6 +14,7 @@ class SupertoneApiModel {
     this.style,
     this.model,
     this.voiceSettings,
+    this.voiceId = 'c9858bccab131431a5c3c7', // Default voice ID
   });
 
   SupertoneApiModel.fromJson(Map<String, dynamic> json)
@@ -20,10 +24,11 @@ class SupertoneApiModel {
       model = json['model'] as String?,
       voiceSettings = (json['voiceSettings'] as Map<String, dynamic>?)?.map(
         (key, value) => MapEntry(key, value as String),
-      );
+      ),
+      voiceId = json['voiceId'] as String? ?? defaultVoiceId;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {'text': text};
+    final Map<String, dynamic> data = {'text': text, voiceId: voiceId};
 
     if (language != null) data['language'] = language;
     if (style != null) data['style'] = style;

@@ -18,12 +18,7 @@ class TTSViewModel extends _$TTSViewModel {
     // _ttsService = FlutterTTSService();
 
     _ttsService = TTSServiceImpl(
-      TTSRepository(
-        apiKey: supertoneApiKey,
-        baseUrl: supertoneApiUrl,
-        path: '/v1/text-to-speech',
-        voiceId: 'c9858bccab131431a5c3c7',
-      ),
+      TTSRepository(baseUrl: supertoneApiUrl, path: '/api/v1/tts'),
     );
     _sttService = SpeechToTextService();
     _initServices();
@@ -49,10 +44,20 @@ class TTSViewModel extends _$TTSViewModel {
 
   Future<void> speakText() async {
     if (state.inputText.isEmpty) return;
+    if (state.inputText.length >= 20) {
+      print('입력된 텍스트가 너무 깁니다. 20자 이하로 입력해주세요.');
+      return;
+    }
 
     state = state.copyWith(isSpeaking: true);
     // await _ttsService.speak({'text': state.inputText});
-    await _ttsService.speak(SupertoneApiModel(text: state.inputText).toJson());
+    await _ttsService.speak(
+      SupertoneApiModel(
+        text: state.inputText,
+        language: 'ko',
+        voiceId: 'c9858bccab131431a5c3c7',
+      ).toJson(),
+    );
     state = state.copyWith(isSpeaking: false);
   }
 
