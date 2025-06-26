@@ -10,7 +10,6 @@ class TTSRepository {
   TTSRepository({required this.baseUrl, required this.path});
 
   Future<Uint8List> fetchTtsAudio(Map<String, dynamic> data) async {
-    // final uri = Uri.parse('$baseUrl$path/$voiceId');
     final uri = Uri.parse('$baseUrl$path/${data['voiceId'] ?? defaultVoiceId}');
 
     final response = await http.post(
