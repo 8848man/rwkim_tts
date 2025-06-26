@@ -4,17 +4,7 @@ import 'package:rwkim_tts/features/tts_service/enums/voice_characters.dart';
 import 'package:rwkim_tts/features/tts_service/providers/now_character_provider.dart';
 
 class CharacterSelectBox extends ConsumerWidget {
-  CharacterSelectBox({super.key});
-
-  final List<VoiceCharacters> voiceCharacters = [
-    VoiceCharacters.dustin,
-    VoiceCharacters.walt,
-    VoiceCharacters.geomac,
-    VoiceCharacters.yejin,
-    VoiceCharacters.mira,
-    VoiceCharacters.neo,
-    VoiceCharacters.allen,
-  ];
+  const CharacterSelectBox({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +29,7 @@ class CharacterSelectBox extends ConsumerWidget {
 Widget buildCharacterSelectBox(
   BuildContext context,
   WidgetRef ref,
-  VoiceCharacters character,
+  VoiceCharacter character,
 ) {
   return GestureDetector(
     onTap: () {
