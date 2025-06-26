@@ -6,7 +6,7 @@ part of 'tts_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tTSViewModelHash() => r'a9289eaa665cfdaa9db697e66c1b3d1ef3bd000c';
+String _$tTSViewModelHash() => r'273f716c38b4b19ab5a2d90bd814c641a1bc79ce';
 
 /// See also [TTSViewModel].
 @ProviderFor(TTSViewModel)

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rwkim_tts/config/tts_api.dart';
 import 'package:rwkim_tts/features/tts_service/models/tts_state.dart';
+import 'package:rwkim_tts/features/tts_service/providers/now_character_provider.dart';
 import 'package:rwkim_tts/features/tts_service/repositories/supertone_repository.dart';
 import 'package:rwkim_tts/features/tts_service/services/stt_service.dart';
 import 'package:rwkim_tts/features/tts_service/services/tts_service.dart';
@@ -49,13 +50,14 @@ class TTSViewModel extends _$TTSViewModel {
       return;
     }
 
+    final String voiceId = ref.read(nowCharacterProvider).id;
+
     state = state.copyWith(isSpeaking: true);
-    // await _ttsService.speak({'text': state.inputText});
     await _ttsService.speak(
       SupertoneApiModel(
         text: state.inputText,
         language: 'ko',
-        voiceId: 'c9858bccab131431a5c3c7',
+        voiceId: voiceId,
       ).toJson(),
     );
     state = state.copyWith(isSpeaking: false);

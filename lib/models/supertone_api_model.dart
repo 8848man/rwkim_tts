@@ -10,11 +10,11 @@ class SupertoneApiModel {
 
   const SupertoneApiModel({
     required this.text,
+    required this.voiceId,
     this.language,
     this.style,
     this.model,
     this.voiceSettings,
-    this.voiceId = 'c9858bccab131431a5c3c7', // Default voice ID
   });
 
   SupertoneApiModel.fromJson(Map<String, dynamic> json)
@@ -28,7 +28,7 @@ class SupertoneApiModel {
       voiceId = json['voiceId'] as String? ?? defaultVoiceId;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {'text': text, voiceId: voiceId};
+    final Map<String, dynamic> data = {'text': text, 'voiceId': voiceId};
 
     if (language != null) data['language'] = language;
     if (style != null) data['style'] = style;
