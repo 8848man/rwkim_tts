@@ -1,7 +1,5 @@
 part of './lib.dart';
 
-const String _basePath = 'assets/images/';
-
 enum VoiceCharacter {
   dustin('Dustin', 'c9858bccab131431a5c3c7', 'dustin.png'),
   walt('Walt', '2f3903463b4018c037cb75', 'walt.png'),
@@ -17,7 +15,7 @@ enum VoiceCharacter {
   final String id;
   final String filename;
 
-  String get imagePath => '$_basePath$filename';
+  // String get imagePath => '$_basePath$filename';
 }
 
 final List<VoiceCharacter> voiceCharacters = [
@@ -32,4 +30,13 @@ final List<VoiceCharacter> voiceCharacters = [
 
 String getVoiceId(VoiceCharacter character) {
   return character.id;
+}
+
+// 유틸 함수 (예: 패키지명은 외부에서 관리)
+String getVoiceImagePath(VoiceCharacter character, {String? packageName}) {
+  if (packageName != null) {
+    return 'packages/$packageName/assets/images/${character.filename}';
+  } else {
+    return 'assets/images/${character.filename}';
+  }
 }
