@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rwkim_tts/features/tts_service/enums/voice_characters.dart';
+import 'package:rwkim_tts/features/tts_service/enums/lib.dart';
 import 'package:rwkim_tts/features/tts_service/providers/now_character_provider.dart';
 
 class CharacterSelectBox extends ConsumerWidget {

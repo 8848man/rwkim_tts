@@ -1,3 +1,5 @@
+part of './lib.dart';
+
 enum TtsEmotions {
   happy('happy'),
   sad('sad');
