@@ -40,28 +40,42 @@ class FlutterTTSService implements TTSService {
 class TTSServiceImpl implements TTSService {
   final TTSRepository repository;
 
-  late final AudioPlayer _player;
+  AudioPlayer? _player; // late -> nullable로 변경
 
   TTSServiceImpl(this.repository);
 
+  bool get _isInitialized => _player != null;
+
+  Future<void> _ensureInitialized() async {
+    if (!_isInitialized) {
+      _player = AudioPlayer();
+    }
+  }
+
   @override
   Future<void> init() async {
-    _player = AudioPlayer();
+    await _ensureInitialized(); // 명시적으로도 호출 가능
   }
 
   @override
   Future<void> speak(Map<String, dynamic> data) async {
+    await _ensureInitialized(); // 자동 초기화
     final audioBytes = await repository.fetchTtsAudio(data);
-    await _player.play(BytesSource(audioBytes));
+    await _player!.play(BytesSource(audioBytes));
   }
 
   @override
   Future<void> stop() async {
-    await _player.stop();
+    if (_isInitialized) {
+      await _player!.stop();
+    }
   }
 
   @override
   Future<void> dispose() async {
-    await _player.dispose();
+    if (_isInitialized) {
+      await _player!.dispose();
+      _player = null; // 재사용 가능하도록 클린업
+    }
   }
 }
