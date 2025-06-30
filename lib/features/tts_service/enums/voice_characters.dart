@@ -1,3 +1,7 @@
+part of './lib.dart';
+
+const String _basePath = 'assets/images/';
+
 enum VoiceCharacter {
   dustin('Dustin', 'c9858bccab131431a5c3c7', 'dustin.png'),
   walt('Walt', '2f3903463b4018c037cb75', 'walt.png'),
@@ -12,8 +16,6 @@ enum VoiceCharacter {
   final String displayName;
   final String id;
   final String filename;
-
-  static const String _basePath = 'lib/assets/images/';
 
   String get imagePath => '$_basePath$filename';
 }
