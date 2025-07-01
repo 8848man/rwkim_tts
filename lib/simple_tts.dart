@@ -15,17 +15,22 @@ class SimpleTTS {
     required String voiceId,
     String language = 'ko',
   }) async {
-    if (!_initialized) {
-      await _ttsService.init();
-      _initialized = true;
+    try {
+      if (!_initialized) {
+        await _ttsService.init();
+        _initialized = true;
+      }
+      await _ttsService.speak({
+        'text': text,
+        'language': language,
+        'voiceId': voiceId,
+      });
+    } catch (e) {
+      print('Error in SimpleTTS speakText: $e');
+      return;
     }
-    await _ttsService.speak({
-      'text': text,
-      'language': language,
-      'voiceId': voiceId,
-    });
   }
 
   Future<void> stop() async => _ttsService.stop();
   Future<void> dispose() async => _ttsService.dispose();
-} 
+}

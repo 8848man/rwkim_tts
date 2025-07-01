@@ -50,7 +50,7 @@ Widget buildCharacterSelectBox(
           CircleAvatar(
             radius: 30,
             backgroundImage: AssetImage(
-              character.imagePath, // 캐릭터 이미지 경로
+              getVoiceImagePath(character), // 캐릭터 이미지 경로
             ), // Replace with your character image
           ),
           const SizedBox(height: 8),
