@@ -59,9 +59,14 @@ class TTSServiceImpl implements TTSService {
 
   @override
   Future<void> speak(Map<String, dynamic> data) async {
-    await _ensureInitialized(); // 자동 초기화
-    final audioBytes = await repository.fetchTtsAudio(data);
-    await _player!.play(BytesSource(audioBytes));
+    try {
+      await _ensureInitialized(); // 자동 초기화
+      final audioBytes = await repository.fetchTtsAudio(data);
+      await _player!.play(BytesSource(audioBytes));
+    } catch (e) {
+      print('TTSServiceImpl speak error: $e');
+      return;
+    }
   }
 
   @override
