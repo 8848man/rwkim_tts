@@ -1,7 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:rwkim_tts/config/tts_api.dart';
 import 'package:rwkim_tts/features/tts_service/consts/default_voice_id.dart';
+
+final ttsRepositoryProvider = Provider<TTSRepository>((ref) {
+  return TTSRepository(baseUrl: supertoneApiUrl, path: '/api/v1/tts');
+});
 
 class TTSRepository {
   final String baseUrl;
