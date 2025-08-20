@@ -1,8 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:rwkim_tts/config/tts_api.dart';
 import 'package:rwkim_tts/features/tts_service/models/tts_state.dart';
 import 'package:rwkim_tts/features/tts_service/providers/now_character_provider.dart';
-import 'package:rwkim_tts/features/tts_service/repositories/supertone_repository.dart';
 import 'package:rwkim_tts/features/tts_service/services/stt_service.dart';
 import 'package:rwkim_tts/features/tts_service/services/tts_service.dart';
 import 'package:rwkim_tts/models/supertone_api_model.dart';
@@ -18,9 +16,7 @@ class TTSViewModel extends _$TTSViewModel {
   TTSState build() {
     // _ttsService = FlutterTTSService();
 
-    _ttsService = TTSServiceImpl(
-      TTSRepository(baseUrl: supertoneApiUrl, path: '/api/v1/tts'),
-    );
+    _ttsService = ref.watch(ttsServiceProvider);
     _sttService = SpeechToTextService();
     _initServices();
     return const TTSState();

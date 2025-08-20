@@ -1,5 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:rwkim_tts/features/tts_service/providers/audio_player_provider.dart';
 import 'package:rwkim_tts/features/tts_service/repositories/supertone_repository.dart';
 
 abstract class TTSService {
@@ -37,32 +39,31 @@ class FlutterTTSService implements TTSService {
   }
 }
 
+final ttsServiceProvider = Provider<TTSServiceImpl>((ref) {
+  final repository = ref.watch(ttsRepositoryProvider);
+  final player = ref.watch(audioPlayerProvider);
+  return TTSServiceImpl(repository, player);
+});
+
 class TTSServiceImpl implements TTSService {
   final TTSRepository repository;
+  final AudioPlayer player;
 
-  AudioPlayer? _player; // late -> nullable로 변경
+  // AudioPlayer? player; // late -> nullable로 변경
 
-  TTSServiceImpl(this.repository);
+  TTSServiceImpl(this.repository, this.player);
 
-  bool get _isInitialized => _player != null;
-
-  Future<void> _ensureInitialized() async {
-    if (!_isInitialized) {
-      _player = AudioPlayer();
-    }
-  }
-
-  @override
-  Future<void> init() async {
-    await _ensureInitialized(); // 명시적으로도 호출 가능
-  }
-
+  // Future<void> _ensureInitialized() async {
+  //   if (!_isInitialized) {
+  //     player = AudioPlayer();
+  //   }
+  // }
   @override
   Future<void> speak(Map<String, dynamic> data) async {
     try {
-      await _ensureInitialized(); // 자동 초기화
+      // await _ensureInitialized(); // 자동 초기화
       final audioBytes = await repository.fetchTtsAudio(data);
-      await _player!.play(BytesSource(audioBytes));
+      await player.play(BytesSource(audioBytes));
     } catch (e) {
       print('TTSServiceImpl speak error: $e');
       return;
@@ -71,16 +72,17 @@ class TTSServiceImpl implements TTSService {
 
   @override
   Future<void> stop() async {
-    if (_isInitialized) {
-      await _player!.stop();
-    }
+    await player.stop();
   }
 
   @override
   Future<void> dispose() async {
-    if (_isInitialized) {
-      await _player!.dispose();
-      _player = null; // 재사용 가능하도록 클린업
-    }
+    await player.dispose();
+  }
+
+  @override
+  Future<void> init() {
+    // TODO: implement init
+    throw UnimplementedError();
   }
 }
